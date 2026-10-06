@@ -5,7 +5,10 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "server": "node server.js"
+    "server": "node server.js",
+    "test": "jest --runInBand",
+    "test:unit": "jest tests/unit",
+    "test:coverage": "jest --runInBand --coverage"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -16,5 +19,31 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.3.1",
     "serverless-http": "^3.2.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.3.1"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFiles": [
+      "<rootDir>/tests/setup/env.js"
+    ],
+    "testTimeout": 30000,
+    "collectCoverageFrom": [
+      "privacy/**/*.js",
+      "controllers/**/*.js",
+      "middleware/**/*.js",
+      "utils/pseudonym.js",
+      "utils/timeZone.js"
+    ],
+    "coverageThreshold": {
+      "./privacy/": {
+        "statements": 80
+      },
+      "./controllers/scoreController.js": {
+        "statements": 80
+      }
+    }
   }
 }
