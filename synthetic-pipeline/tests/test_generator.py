@@ -46,6 +46,8 @@ class GeneratorTests(unittest.TestCase):
             self.assertEqual(len(seg) % 2, 1, "segments start and end with activity")
             self.assertEqual(sum(seg[0::2]), s["activeSeconds"])
             self.assertEqual(sum(seg[1::2]), s["idleSeconds"])
+            for active in seg[0::2] if len(seg) > 1 else []:
+                self.assertGreaterEqual(active, generator.MIN_ACTIVE_SECONDS)
             for idle in seg[1::2]:
                 self.assertGreaterEqual(idle, generator.MIN_BREAK_SECONDS)
                 self.assertLessEqual(idle, generator.MAX_BREAK_SECONDS)

@@ -41,6 +41,9 @@ LOCAL_OFFSET = timedelta(hours=5, minutes=30)
 # break never ends a session on its own; a session ends by logout or timeout.
 MIN_BREAK_SECONDS = 2 * 60
 MAX_BREAK_SECONDS = 9 * 60
+# Studying between two breaks lasts at least this long. Without it, two breaks
+# joined by a few seconds of activity would look like one long absence.
+MIN_ACTIVE_SECONDS = 5 * 60
 
 # ---------------------------------------------------------------------------
 # Step 1: profile specification
@@ -184,11 +187,13 @@ class StudyCohortSimulator:
         breaks = self.rng.randint(1, max(1, min(4, total_seconds // (30 * 60))))
         idle = [self.rng.randint(MIN_BREAK_SECONDS, MAX_BREAK_SECONDS) for _ in range(breaks)]
         active_total = total_seconds - sum(idle)
-        if active_total < (breaks + 1) * 60:
+        spare = active_total - (breaks + 1) * MIN_ACTIVE_SECONDS
+        if spare < 0:
             return [total_seconds]
-        # Random cut points split the active time into breaks + 1 pieces
-        cuts = sorted(self.rng.sample(range(60, active_total - 59), breaks))
-        pieces = [b - a for a, b in zip([0] + cuts, cuts + [active_total])]
+        # Random cut points share the spare time between breaks + 1 pieces,
+        # each of which already holds MIN_ACTIVE_SECONDS
+        cuts = sorted(self.rng.randint(0, spare) for _ in range(breaks))
+        pieces = [b - a + MIN_ACTIVE_SECONDS for a, b in zip([0] + cuts, cuts + [spare])]
         segments = []
         for i, piece in enumerate(pieces):
             segments.append(piece)
