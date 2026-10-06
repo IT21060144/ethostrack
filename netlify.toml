@@ -1,0 +1,41 @@
+# Netlify settings for EthosTrack (read automatically on every deploy).
+#   Website:  the React build (frontend/build), served as static files.
+#   API:      /api/* is rewritten to one Netlify Function that runs the same
+#             Express app as the Mac version (backend/functions/api.js).
+# Set MONGO_URI, JWT_SECRET and PSEUDONYM_SECRET under
+# Site configuration > Environment variables (see deploy/NETLIFY.md).
+
+[build]
+  # CI= stops Create React App from failing the build on lint warnings.
+  command = "npm install --prefix backend && npm install --prefix frontend && CI= npm run build --prefix frontend"
+  publish = "frontend/build"
+
+[build.environment]
+  NODE_VERSION = "20"
+  INLINE_RUNTIME_CHUNK = "false"
+  GENERATE_SOURCEMAP = "false"
+
+[functions]
+  directory = "backend/functions"
+  node_bundler = "zisi"
+
+# Every API call goes to the function; status 200 means "rewrite", so the
+# browser keeps seeing its own /api/... address.
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+# Any other address loads the app, so refreshing the page never shows a 404.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"
+    X-Frame-Options = "DENY"

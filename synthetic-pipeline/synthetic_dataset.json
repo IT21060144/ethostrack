@@ -1,0 +1,503 @@
+{
+  "metadata": {
+    "generated_at": "2026-10-06T00:42:03.110035",
+    "total_students": 5,
+    "total_sessions": 54
+  },
+  "cohort": [
+    {
+      "student_id": "ee027ea0-89fc-4973-b968-83a192086327",
+      "pseudo_id": "50426dc082074b69b60a9e617b91ba48",
+      "profile": "irregular",
+      "config": {
+        "days_per_week": 3,
+        "target_minutes": 45,
+        "idle_probability": 0.15,
+        "abnormal_exit_prob": 0.1,
+        "start_hour_mean": 15.0
+      }
+    },
+    {
+      "student_id": "c3ba6acc-5ce9-4be1-b9ec-72f15fcbd329",
+      "pseudo_id": "578efbf8acf44d2e99752b4dc308261c",
+      "profile": "cramming",
+      "config": {
+        "days_per_week": 1,
+        "target_minutes": 360,
+        "idle_probability": 0.2,
+        "abnormal_exit_prob": 0.15,
+        "start_hour_mean": 22.0
+      }
+    },
+    {
+      "student_id": "e212c958-888b-4da7-b1e7-9c20f4d52629",
+      "pseudo_id": "8126353940e04444bc1891381fbcd80d",
+      "profile": "cramming",
+      "config": {
+        "days_per_week": 1,
+        "target_minutes": 360,
+        "idle_probability": 0.2,
+        "abnormal_exit_prob": 0.15,
+        "start_hour_mean": 22.0
+      }
+    },
+    {
+      "student_id": "4bba615d-721e-4b8f-84d8-98e2c46dd065",
+      "pseudo_id": "f7c4e6a687dc48909286e7870ded3f74",
+      "profile": "consistent",
+      "config": {
+        "days_per_week": 5,
+        "target_minutes": 90,
+        "idle_probability": 0.05,
+        "abnormal_exit_prob": 0.02,
+        "start_hour_mean": 9.0
+      }
+    },
+    {
+      "student_id": "4e8c8e0c-5984-4f0e-8888-d48f0db6f149",
+      "pseudo_id": "6bc9b28813354f4da261bd015cb7cfe7",
+      "profile": "irregular",
+      "config": {
+        "days_per_week": 3,
+        "target_minutes": 45,
+        "idle_probability": 0.15,
+        "abnormal_exit_prob": 0.1,
+        "start_hour_mean": 15.0
+      }
+    }
+  ],
+  "sessions": [
+    {
+      "pseudoId": "50426dc082074b69b60a9e617b91ba48",
+      "loginTime": "2026-09-09T17:31:00.109798Z",
+      "logoutTime": "2026-09-09T18:18:00.109798Z",
+      "activeSeconds": 2477,
+      "idleSeconds": 343,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "50426dc082074b69b60a9e617b91ba48",
+      "loginTime": "2026-09-10T12:08:00.109798Z",
+      "logoutTime": "2026-09-10T13:06:00.109798Z",
+      "activeSeconds": 3112,
+      "idleSeconds": 368,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "50426dc082074b69b60a9e617b91ba48",
+      "loginTime": "2026-09-13T14:35:00.109798Z",
+      "logoutTime": "2026-09-13T15:20:00.109798Z",
+      "activeSeconds": 2700,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "50426dc082074b69b60a9e617b91ba48",
+      "loginTime": "2026-09-15T17:36:00.109798Z",
+      "logoutTime": "2026-09-15T18:22:00.109798Z",
+      "activeSeconds": 2760,
+      "idleSeconds": 0,
+      "endReason": "timeout"
+    },
+    {
+      "pseudoId": "50426dc082074b69b60a9e617b91ba48",
+      "loginTime": "2026-09-17T13:48:00.109798Z",
+      "logoutTime": "2026-09-17T14:35:00.109798Z",
+      "activeSeconds": 2820,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "50426dc082074b69b60a9e617b91ba48",
+      "loginTime": "2026-09-19T17:10:00.109798Z",
+      "logoutTime": "2026-09-19T17:57:00.109798Z",
+      "activeSeconds": 2820,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "50426dc082074b69b60a9e617b91ba48",
+      "loginTime": "2026-09-21T15:29:00.109798Z",
+      "logoutTime": "2026-09-21T16:09:00.109798Z",
+      "activeSeconds": 2400,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "50426dc082074b69b60a9e617b91ba48",
+      "loginTime": "2026-09-25T15:37:00.109798Z",
+      "logoutTime": "2026-09-25T16:25:00.109798Z",
+      "activeSeconds": 2880,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "50426dc082074b69b60a9e617b91ba48",
+      "loginTime": "2026-09-28T17:30:00.109798Z",
+      "logoutTime": "2026-09-28T18:08:00.109798Z",
+      "activeSeconds": 2280,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "50426dc082074b69b60a9e617b91ba48",
+      "loginTime": "2026-10-01T14:10:00.109798Z",
+      "logoutTime": "2026-10-01T14:57:00.109798Z",
+      "activeSeconds": 2820,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "578efbf8acf44d2e99752b4dc308261c",
+      "loginTime": "2026-09-15T22:36:00.109798Z",
+      "logoutTime": "2026-09-16T04:28:00.109798Z",
+      "activeSeconds": 21120,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "578efbf8acf44d2e99752b4dc308261c",
+      "loginTime": "2026-09-17T21:08:00.109798Z",
+      "logoutTime": "2026-09-18T02:59:00.109798Z",
+      "activeSeconds": 21060,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "578efbf8acf44d2e99752b4dc308261c",
+      "loginTime": "2026-09-21T22:52:00.109798Z",
+      "logoutTime": "2026-09-22T05:15:00.109798Z",
+      "activeSeconds": 22980,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "578efbf8acf44d2e99752b4dc308261c",
+      "loginTime": "2026-09-28T20:51:00.109798Z",
+      "logoutTime": "2026-09-29T03:16:00.109798Z",
+      "activeSeconds": 23100,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "578efbf8acf44d2e99752b4dc308261c",
+      "loginTime": "2026-10-03T21:55:00.109798Z",
+      "logoutTime": "2026-10-04T04:32:00.109798Z",
+      "activeSeconds": 17703,
+      "idleSeconds": 6117,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "8126353940e04444bc1891381fbcd80d",
+      "loginTime": "2026-09-19T21:24:00.109798Z",
+      "logoutTime": "2026-09-20T03:32:00.109798Z",
+      "activeSeconds": 15613,
+      "idleSeconds": 6467,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "8126353940e04444bc1891381fbcd80d",
+      "loginTime": "2026-09-25T21:57:00.109798Z",
+      "logoutTime": "2026-09-26T04:05:00.109798Z",
+      "activeSeconds": 18834,
+      "idleSeconds": 3246,
+      "endReason": "timeout"
+    },
+    {
+      "pseudoId": "8126353940e04444bc1891381fbcd80d",
+      "loginTime": "2026-09-28T21:28:00.109798Z",
+      "logoutTime": "2026-09-29T03:20:00.109798Z",
+      "activeSeconds": 21120,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "f7c4e6a687dc48909286e7870ded3f74",
+      "loginTime": "2026-09-08T08:07:00.109798Z",
+      "logoutTime": "2026-09-08T09:32:00.109798Z",
+      "activeSeconds": 5100,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "f7c4e6a687dc48909286e7870ded3f74",
+      "loginTime": "2026-09-09T11:12:00.109798Z",
+      "logoutTime": "2026-09-09T12:25:00.109798Z",
+      "activeSeconds": 4380,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "f7c4e6a687dc48909286e7870ded3f74",
+      "loginTime": "2026-09-11T09:37:00.109798Z",
+      "logoutTime": "2026-09-11T11:02:00.109798Z",
+      "activeSeconds": 5100,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "f7c4e6a687dc48909286e7870ded3f74",
+      "loginTime": "2026-09-13T08:05:00.109798Z",
+      "logoutTime": "2026-09-13T09:29:00.109798Z",
+      "activeSeconds": 5040,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "f7c4e6a687dc48909286e7870ded3f74",
+      "loginTime": "2026-09-14T08:01:00.109798Z",
+      "logoutTime": "2026-09-14T09:24:00.109798Z",
+      "activeSeconds": 4980,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "f7c4e6a687dc48909286e7870ded3f74",
+      "loginTime": "2026-09-15T06:11:00.109798Z",
+      "logoutTime": "2026-09-15T07:40:00.109798Z",
+      "activeSeconds": 5340,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "f7c4e6a687dc48909286e7870ded3f74",
+      "loginTime": "2026-09-16T07:53:00.109798Z",
+      "logoutTime": "2026-09-16T09:25:00.109798Z",
+      "activeSeconds": 5520,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "f7c4e6a687dc48909286e7870ded3f74",
+      "loginTime": "2026-09-17T08:30:00.109798Z",
+      "logoutTime": "2026-09-17T10:01:00.109798Z",
+      "activeSeconds": 5460,
+      "idleSeconds": 0,
+      "endReason": "timeout"
+    },
+    {
+      "pseudoId": "f7c4e6a687dc48909286e7870ded3f74",
+      "loginTime": "2026-09-18T05:49:00.109798Z",
+      "logoutTime": "2026-09-18T06:57:00.109798Z",
+      "activeSeconds": 4080,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "f7c4e6a687dc48909286e7870ded3f74",
+      "loginTime": "2026-09-19T09:05:00.109798Z",
+      "logoutTime": "2026-09-19T10:40:00.109798Z",
+      "activeSeconds": 5700,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "f7c4e6a687dc48909286e7870ded3f74",
+      "loginTime": "2026-09-21T09:59:00.109798Z",
+      "logoutTime": "2026-09-21T11:06:00.109798Z",
+      "activeSeconds": 4020,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "f7c4e6a687dc48909286e7870ded3f74",
+      "loginTime": "2026-09-22T08:47:00.109798Z",
+      "logoutTime": "2026-09-22T10:08:00.109798Z",
+      "activeSeconds": 4860,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "f7c4e6a687dc48909286e7870ded3f74",
+      "loginTime": "2026-09-23T08:55:00.109798Z",
+      "logoutTime": "2026-09-23T10:46:00.109798Z",
+      "activeSeconds": 6660,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "f7c4e6a687dc48909286e7870ded3f74",
+      "loginTime": "2026-09-24T07:35:00.109798Z",
+      "logoutTime": "2026-09-24T09:32:00.109798Z",
+      "activeSeconds": 7020,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "f7c4e6a687dc48909286e7870ded3f74",
+      "loginTime": "2026-09-25T08:38:00.109798Z",
+      "logoutTime": "2026-09-25T10:28:00.109798Z",
+      "activeSeconds": 6600,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "f7c4e6a687dc48909286e7870ded3f74",
+      "loginTime": "2026-09-27T07:24:00.109798Z",
+      "logoutTime": "2026-09-27T09:04:00.109798Z",
+      "activeSeconds": 6000,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "f7c4e6a687dc48909286e7870ded3f74",
+      "loginTime": "2026-09-28T05:24:00.109798Z",
+      "logoutTime": "2026-09-28T06:47:00.109798Z",
+      "activeSeconds": 4980,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "f7c4e6a687dc48909286e7870ded3f74",
+      "loginTime": "2026-09-29T09:36:00.109798Z",
+      "logoutTime": "2026-09-29T10:54:00.109798Z",
+      "activeSeconds": 4680,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "f7c4e6a687dc48909286e7870ded3f74",
+      "loginTime": "2026-09-30T08:10:00.109798Z",
+      "logoutTime": "2026-09-30T09:36:00.109798Z",
+      "activeSeconds": 5160,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "f7c4e6a687dc48909286e7870ded3f74",
+      "loginTime": "2026-10-02T11:35:00.109798Z",
+      "logoutTime": "2026-10-02T13:19:00.109798Z",
+      "activeSeconds": 6240,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "f7c4e6a687dc48909286e7870ded3f74",
+      "loginTime": "2026-10-03T11:40:00.109798Z",
+      "logoutTime": "2026-10-03T13:16:00.109798Z",
+      "activeSeconds": 5760,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "f7c4e6a687dc48909286e7870ded3f74",
+      "loginTime": "2026-10-04T10:06:00.109798Z",
+      "logoutTime": "2026-10-04T11:29:00.109798Z",
+      "activeSeconds": 4980,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "f7c4e6a687dc48909286e7870ded3f74",
+      "loginTime": "2026-10-05T11:41:00.109798Z",
+      "logoutTime": "2026-10-05T13:14:00.109798Z",
+      "activeSeconds": 5580,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "6bc9b28813354f4da261bd015cb7cfe7",
+      "loginTime": "2026-09-10T14:38:00.109798Z",
+      "logoutTime": "2026-09-10T16:07:00.109798Z",
+      "activeSeconds": 5340,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "6bc9b28813354f4da261bd015cb7cfe7",
+      "loginTime": "2026-09-13T15:20:00.109798Z",
+      "logoutTime": "2026-09-13T16:03:00.109798Z",
+      "activeSeconds": 1867,
+      "idleSeconds": 713,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "6bc9b28813354f4da261bd015cb7cfe7",
+      "loginTime": "2026-09-15T16:43:00.109798Z",
+      "logoutTime": "2026-09-15T17:34:00.109798Z",
+      "activeSeconds": 3060,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "6bc9b28813354f4da261bd015cb7cfe7",
+      "loginTime": "2026-09-16T15:01:00.109798Z",
+      "logoutTime": "2026-09-16T15:37:00.109798Z",
+      "activeSeconds": 2160,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "6bc9b28813354f4da261bd015cb7cfe7",
+      "loginTime": "2026-09-18T15:12:00.109798Z",
+      "logoutTime": "2026-09-18T16:16:00.109798Z",
+      "activeSeconds": 3840,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "6bc9b28813354f4da261bd015cb7cfe7",
+      "loginTime": "2026-09-20T13:01:00.109798Z",
+      "logoutTime": "2026-09-20T13:41:00.109798Z",
+      "activeSeconds": 2400,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "6bc9b28813354f4da261bd015cb7cfe7",
+      "loginTime": "2026-09-21T14:23:00.109798Z",
+      "logoutTime": "2026-09-21T14:54:00.109798Z",
+      "activeSeconds": 1860,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "6bc9b28813354f4da261bd015cb7cfe7",
+      "loginTime": "2026-09-25T12:38:00.109798Z",
+      "logoutTime": "2026-09-25T13:06:00.109798Z",
+      "activeSeconds": 1680,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "6bc9b28813354f4da261bd015cb7cfe7",
+      "loginTime": "2026-09-28T12:53:00.109798Z",
+      "logoutTime": "2026-09-28T14:00:00.109798Z",
+      "activeSeconds": 3223,
+      "idleSeconds": 797,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "6bc9b28813354f4da261bd015cb7cfe7",
+      "loginTime": "2026-09-29T14:28:00.109798Z",
+      "logoutTime": "2026-09-29T15:15:00.109798Z",
+      "activeSeconds": 2820,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "6bc9b28813354f4da261bd015cb7cfe7",
+      "loginTime": "2026-10-01T12:26:00.109798Z",
+      "logoutTime": "2026-10-01T13:13:00.109798Z",
+      "activeSeconds": 2820,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "6bc9b28813354f4da261bd015cb7cfe7",
+      "loginTime": "2026-10-02T13:28:00.109798Z",
+      "logoutTime": "2026-10-02T14:19:00.109798Z",
+      "activeSeconds": 3060,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    },
+    {
+      "pseudoId": "6bc9b28813354f4da261bd015cb7cfe7",
+      "loginTime": "2026-10-04T11:35:00.109798Z",
+      "logoutTime": "2026-10-04T12:22:00.109798Z",
+      "activeSeconds": 2820,
+      "idleSeconds": 0,
+      "endReason": "explicit"
+    }
+  ]
+}

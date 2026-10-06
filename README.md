@@ -1,0 +1,108 @@
+# EthosTrack
+
+Ethical and Privacy-Preserving Habit Tracking Web System for monitoring student study consistency (MERN).
+
+## Live demo
+
+- App: https://ethostrack-inoka.netlify.app
+- Research site: https://admirable-bavarois-0dfb67.netlify.app
+
+Secrets (database address, JWT and pseudonym keys) are not in this repository. Copy `backend/.env.example` to `backend/.env` and fill them in.
+
+## Privacy design in one paragraph
+
+Identity data (`User`: email, password hash) and behavioral data (`StudySession`, `StudyGoal`) live in separate collections and share no field. The only link is `PseudonymMap`, which stores a random `pseudoId` next to `lookupHash = HMAC-SHA256(PSEUDONYM_SECRET, userId)`. Only the server knows `PSEUDONYM_SECRET`, so a dump of the behavioral collections cannot be tied back to a person. All conversion from user id to pseudoId happens in `backend/utils/pseudonym.js`.
+
+## Requirements
+
+- Node.js 18 or newer
+- MongoDB running locally (or an Atlas connection string)
+- Python 3 (only for the synthetic data generator)
+
+## Run it
+
+```bash
+npm run install:all                      # root, backend and frontend dependencies
+cp backend/.env.example backend/.env     # skip if backend/.env already exists; then set the secrets
+npm run build:clean                      # optional: generate synthetic data and seed a demo student
+npm run dev                              # API on :5001 and React on :3000
+```
+
+Open http://localhost:3000. The seeded demo login is `student@example.com` / `Password123!`.
+
+If the app says your session has ended, just log in again: tokens from an older run (or after changing `JWT_SECRET`) are rejected and cleared automatically.
+
+To start a MongoDB with Docker: `docker run -d --name ethos-mongo -p 27017:27017 mongo:7`.
+
+## Automatic tracking
+
+Once a student logs in, tracking starts by itself (it can be switched off in Privacy Options, and that choice is remembered). The EthosTrack tab only needs to stay open; it can be in the background:
+
+- **Studying** = the keyboard, mouse or trackpad was used in the last 5 minutes, in any tab or app. On a Mac the local server reads how many seconds ago the computer was last touched (`ioreg` HIDIdleTime, `GET /api/device/activity`); nothing about keys, apps or pages is read. On other systems only input in the visible EthosTrack tab counts.
+- **Break** = no input for 5 minutes. After 10 minutes of nothing but breaks the session ends at the last activity (`endReason: "idle"`).
+- **Lid closed / sleep** = heartbeats stop; the session ends at the last heartbeat (`endReason: "timeout"`).
+- **Tab closed, logout, pause** = the session ends straight away (`endReason: "explicit"`).
+
+The **Study Log** tab shows one row per day (start, end, hours, sessions, breaks, goal, streak) in the time zone of the student's own device, and downloads it as a CSV using the research dataset's column names. A session still in progress shows "Studying now" (empty `logout_time` in the CSV). Identity columns (student id, name) are never in the export.
+
+## Start automatically on a Mac
+
+EthosTrack can open and start tracking by itself whenever the Mac is opened, with no terminal and no clicks.
+
+1. Make sure MongoDB is installed (Homebrew's `mongodb-community` is started for you).
+2. Double-click **Install EthosTrack.command** in this folder. The first time, macOS may say it is from an unidentified developer: right-click the file, choose **Open**, then **Open** again. (Or run `npm run mac:install` in VS Code's terminal.)
+3. Firefox opens on http://localhost:5001. Sign in once.
+
+From then on, logging in or opening the lid opens EthosTrack in Firefox (or the default browser) and tracking starts on its own. If the tab is still open after sleep, no second tab is opened. To stop it, double-click **Turn Off EthosTrack.command** (or `npm run mac:uninstall`); the account and study data are kept.
+
+How it works: the installer builds the React app, copies the app to `~/Library/Application Support/EthosTrack` (background programs may not read Desktop or Documents) and adds the LaunchAgent `~/Library/LaunchAgents/com.ethostrack.app.plist`. That runs `node backend/server.js` at login, serving both the API and the built app on port 5001. `backend/utils/autoOpen.js` opens the browser after start-up and after the Mac wakes. Run the installer again after changing the code. Stop it before using `npm run dev`, which needs port 5001. Logs: `~/Library/Logs/EthosTrack.log`.
+
+## Put it on a website
+
+**Netlify:** `netlify.toml` serves `frontend/build` and rewrites `/api/*` to one function (`backend/functions/api.js`, the same Express app via serverless-http). Double-click **Publish to Netlify.command** (or `npm run netlify`): it signs in, creates a new site, asks for `MONGO_URI`, creates `JWT_SECRET` and `PSEUDONYM_SECRET` if missing, and runs `netlify deploy --build --prod`. Steps: [deploy/NETLIFY.md](deploy/NETLIFY.md).
+
+**Other Node hosts:** `npm run web:bundle` builds `deploy/EthosTrack-web.zip`: the backend plus the built React app, run by one Node server (`npm start`, or `app.js` as a startup file). The host supplies `NODE_ENV=production`, `MONGO_URI` (e.g. MongoDB Atlas), `JWT_SECRET` and `PSEUDONYM_SECRET` as environment variables. Step-by-step notes: [deploy/DEPLOY.md](deploy/DEPLOY.md). Hosting without Node.js (PHP-only shared hosting) cannot run it, and the Mac auto-start and other-app activity only work on the laptop.
+
+## API
+
+| Method | Path | Auth | Purpose |
+| --- | --- | --- | --- |
+| GET | `/api/health` | no | Server and database status |
+| POST | `/api/auth/register` | no | Create account, PseudonymMap link and default goals |
+| POST | `/api/auth/login` | no | Returns a JWT (also repairs a missing PseudonymMap link) |
+| GET | `/api/auth/me` | yes | Checks a stored token on page load |
+| POST | `/api/tracking/heartbeat` | yes | `{ isActiveSegment }` every 30 s; opens or extends a session |
+| POST | `/api/tracking/end` | yes | Closes the open session (pause, consent off, logout) |
+| GET | `/api/device/activity` | yes | Seconds since the Mac was last used (macOS only) |
+| GET | `/api/tracking/current` | yes | Live counters for the open session |
+| GET | `/api/tracking/log?days=30` | yes | One row per day: start, end, hours, sessions, breaks, goal, streak |
+| GET | `/api/tracking/log.csv?days=30` | yes | Same rows as a CSV download |
+| PUT | `/api/tracking/goal` | yes | `{ goalHours }` daily study goal |
+| GET | `/api/dashboard?window=week\|rolling` | yes | Consistency score (R, A, S, H) |
+| DELETE | `/api/me` | yes | Erases the account from every zone |
+
+Sessions with no heartbeat for `SESSION_TIMEOUT_SECONDS` (default 300) are closed with `endReason: "timeout"`.
+
+## Layout
+
+```
+backend/
+  server.js               Express app, security middleware, error handling
+  models/                 User (identity), PseudonymMap (bridge), StudySession + StudyGoal (behavioral)
+  controllers/            auth, tracking (heartbeat), studyLog (daily rows + CSV), score, user (erasure)
+  routes/                 one router per API area
+  middleware/auth.js      JWT check, sets req.user.id
+  utils/pseudonym.js      the only userId -> pseudoId crossing
+  utils/autoOpen.js       opens the app in the browser at login and after wake (macOS)
+  utils/deviceActivity.js seconds since the Mac was last used, so other tabs and apps count
+  utils/seedDatabase.js   demo student + synthetic dataset import
+frontend/src/
+  api.js                  axios client (REACT_APP_API_URL, default http://localhost:5001)
+  hooks/useTrackingHeartbeat.js
+  styles.css              design system: colors, spacing, layout (edit the :root tokens to rebrand)
+  components/             AuthView (landing + login), DashboardView, StudyLogView, PrivacyCentre
+  components/Charts.jsx   dependency-free SVG charts (score ring, study hours, weekly score)
+  components/Icon.jsx     inline SVG icons and the EthosTrack logo
+mac/                      install.sh / uninstall.sh behind the two .command files
+synthetic-pipeline/       generator.py (standard library only) and its JSON output
+```

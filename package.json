@@ -1,0 +1,24 @@
+{
+  "name": "ethostrack-root",
+  "version": "1.0.0",
+  "description": "Ethical and Privacy-Preserving Habit Tracking Web System Root Workspace Manager",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install && npm install --prefix backend && npm install --prefix frontend",
+    "dev": "concurrently -n api,web -c blue,green \"npm run server\" \"npm run client\"",
+    "start": "node backend/server.js",
+    "server": "npm start --prefix backend",
+    "client": "npm start --prefix frontend",
+    "build": "npm run build --prefix frontend",
+    "web:bundle": "bash deploy/make-web-bundle.sh",
+    "simulate": "cd synthetic-pipeline && python3 generator.py",
+    "seed": "node backend/utils/seedDatabase.js",
+    "build:clean": "npm run simulate && npm run seed",
+    "mac:install": "bash mac/install.sh",
+    "mac:uninstall": "bash mac/uninstall.sh",
+    "netlify": "bash deploy/publish-netlify.sh"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
