@@ -1,0 +1,111 @@
+{
+ "note": "Made by synthetic-pipeline/make_replay_fixture.py (seed 2026). segments alternate active/idle seconds; they are the ground truth for the replay test.",
+ "sessions": [
+  {
+   "profile": "irregular",
+   "activeSeconds": 1982,
+   "idleSeconds": 538,
+   "endReason": "timeout",
+   "segments": [
+    644,
+    538,
+    1338
+   ]
+  },
+  {
+   "profile": "recovering",
+   "activeSeconds": 1224,
+   "idleSeconds": 396,
+   "endReason": "timeout",
+   "segments": [
+    311,
+    396,
+    913
+   ]
+  },
+  {
+   "profile": "moderately_consistent",
+   "activeSeconds": 5187,
+   "idleSeconds": 453,
+   "endReason": "timeout",
+   "segments": [
+    4244,
+    453,
+    943
+   ]
+  },
+  {
+   "profile": "irregular",
+   "activeSeconds": 4309,
+   "idleSeconds": 191,
+   "endReason": "timeout",
+   "segments": [
+    353,
+    191,
+    3956
+   ]
+  },
+  {
+   "profile": "declining",
+   "activeSeconds": 6120,
+   "idleSeconds": 0,
+   "endReason": "timeout",
+   "segments": [
+    6120
+   ]
+  },
+  {
+   "profile": "declining",
+   "activeSeconds": 4740,
+   "idleSeconds": 0,
+   "endReason": "timeout",
+   "segments": [
+    4740
+   ]
+  },
+  {
+   "profile": "recovering",
+   "activeSeconds": 1680,
+   "idleSeconds": 0,
+   "endReason": "timeout",
+   "segments": [
+    1680
+   ]
+  },
+  {
+   "profile": "moderately_consistent",
+   "activeSeconds": 5040,
+   "idleSeconds": 0,
+   "endReason": "timeout",
+   "segments": [
+    5040
+   ]
+  },
+  {
+   "profile": "consistent",
+   "activeSeconds": 4344,
+   "idleSeconds": 816,
+   "endReason": "explicit",
+   "segments": [
+    640,
+    417,
+    3385,
+    399,
+    319
+   ]
+  },
+  {
+   "profile": "consistent",
+   "activeSeconds": 4229,
+   "idleSeconds": 511,
+   "endReason": "explicit",
+   "segments": [
+    1015,
+    215,
+    664,
+    296,
+    2550
+   ]
+  }
+ ]
+}
