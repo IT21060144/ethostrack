@@ -140,3 +140,9 @@ describe('cohortAggregates', () => {
     expect(meanError).toBeLessThan(270 * 0.15);
   });
 });
+
+test('a group smaller than k is suppressed whatever noise is drawn', () => {
+  // u close to 1 gives a large positive noise draw on the count
+  const result = cohortAggregates(cohort(1), { epsilon: 1, k: 5, rng: fixed(0.999) });
+  expect(result.suppressed).toBe(true);
+});

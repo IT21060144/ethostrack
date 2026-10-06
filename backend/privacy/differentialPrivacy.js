@@ -23,9 +23,9 @@
  *   3. histogram of study days per week   sensitivity 1 (one bin per student)
  *   4. histogram of usual start time      sensitivity 1 (one bin per student)
  * The mean is derived from the noisy sum and the noisy count, which costs no
- * extra budget (post-processing). If the noisy count is below k the whole
- * release is suppressed, because statistics about tiny groups are risky even
- * with noise (proposal Section 21).
+ * extra budget (post-processing). If the group has fewer than k students (or
+ * the noisy count is below k) the whole release is suppressed, because
+ * statistics about tiny groups are risky even with noise (proposal Section 21).
  */
 const crypto = require('crypto');
 const { toLocalParts } = require('../controllers/scoreController');
@@ -151,7 +151,11 @@ function cohortAggregates(sessions, {
   };
 
   const count = noisyCount(students.length, perQuery, rng);
-  if (count < k) {
+  // A group smaller than k is always withheld. Checking only the noisy count
+  // would let a single student through about 1 time in 5 at epsilon 1, so
+  // the true size is checked too (a fixed minimum group size, as used by
+  // most statistics offices; it reveals only "fewer than k").
+  if (students.length < k || count < k) {
     return { suppressed: true, reason: `Fewer than ${k} students in this group`, privacy };
   }
 
