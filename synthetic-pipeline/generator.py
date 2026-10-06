@@ -24,14 +24,14 @@ no names, emails or other identity fields exist in the output.
 
 Usage (standard library only):
     python3 generator.py                         # 10 students per profile, 12 weeks
-    python3 generator.py --per-profile 50 --weeks 14 --seed 7 --out big.json
+    python3 generator.py --per-profile 50 --weeks 14 --seed 7 --end-date 2026-10-01 --out big.json
 """
 import argparse
 import json
 import os
 import random
 import uuid
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 
 # Sri Lanka has no daylight saving time, so a fixed offset is exact.
 LOCAL_TZ_NAME = "Asia/Colombo"
@@ -333,11 +333,13 @@ def main():
     parser.add_argument("--per-profile", type=int, default=10, help="students per profile (default 10)")
     parser.add_argument("--weeks", type=int, default=12, help="semester length in weeks (default 12)")
     parser.add_argument("--seed", type=int, default=42, help="random seed, for repeatable data (default 42)")
+    parser.add_argument("--end-date", help="last day of the semester, YYYY-MM-DD (default: today), for repeatable dates")
     parser.add_argument("--out", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "synthetic_dataset.json"))
     args = parser.parse_args()
 
     print("[Pipeline] Simulating %d students per profile over %d weeks (seed %s)..." % (args.per_profile, args.weeks, args.seed))
-    data = build_dataset(per_profile=args.per_profile, total_weeks=args.weeks, seed=args.seed)
+    end_date = date.fromisoformat(args.end_date) if args.end_date else None
+    data = build_dataset(per_profile=args.per_profile, total_weeks=args.weeks, seed=args.seed, end_date=end_date)
 
     with open(args.out, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=1)
