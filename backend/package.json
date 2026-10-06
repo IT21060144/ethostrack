@@ -44,6 +44,9 @@
       "./controllers/scoreController.js": {
         "statements": 80
       }
-    }
+    },
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/setup/quiet.js"
+    ]
   }
 }
