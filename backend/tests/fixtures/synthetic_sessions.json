@@ -55,12 +55,30 @@
    ]
   },
   {
+   "profile": "cramming",
+   "activeSeconds": 11880,
+   "idleSeconds": 0,
+   "endReason": "timeout",
+   "segments": [
+    11880
+   ]
+  },
+  {
    "profile": "declining",
    "activeSeconds": 4740,
    "idleSeconds": 0,
    "endReason": "timeout",
    "segments": [
     4740
+   ]
+  },
+  {
+   "profile": "cramming",
+   "activeSeconds": 15720,
+   "idleSeconds": 0,
+   "endReason": "timeout",
+   "segments": [
+    15720
    ]
   },
   {

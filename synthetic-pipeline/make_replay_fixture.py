@@ -2,7 +2,8 @@
 make_replay_fixture.py - picks the sessions replayed by the backend's
 simulation test (backend/tests/simulation/replay.test.js).
 
-Up to 2 sessions per profile, under 2.5 hours each, abnormal exits (timeout)
+Up to 2 sessions per profile, under 2.5 hours each (5 hours for cramming,
+whose sessions are long by design), abnormal exits (timeout)
 and sessions with breaks first, from a small seeded cohort. Run it again
 after changing generator.py:
 
@@ -25,7 +26,8 @@ def main():
     picked, per_profile = [], {}
     for s in ordered:
         profile = profile_of[s["pseudoId"]]
-        if per_profile.get(profile, 0) >= 2 or s["activeSeconds"] + s["idleSeconds"] > 150 * 60:
+        limit = 300 * 60 if profile == "cramming" else 150 * 60
+        if per_profile.get(profile, 0) >= 2 or s["activeSeconds"] + s["idleSeconds"] > limit:
             continue
         per_profile[profile] = per_profile.get(profile, 0) + 1
         picked.append({"profile": profile, **{k: s[k] for k in ("activeSeconds", "idleSeconds", "endReason", "segments")}})
