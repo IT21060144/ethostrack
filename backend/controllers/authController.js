@@ -136,7 +136,8 @@ const loginUser = async (req, res, next) => {
       throw new HttpError(401, 'Invalid authentication credential details provided');
     }
 
-    await ensureTrackingProfile(user._id);
+    // Researchers have no study data, so they get no PseudonymMap link
+    if (user.role !== 'researcher') await ensureTrackingProfile(user._id);
 
     return res.status(200).json({
       success: true,
@@ -155,11 +156,12 @@ const loginUser = async (req, res, next) => {
  */
 const getSession = async (req, res, next) => {
   try {
-    const user = await User.findById(req.user?.id).select('email').lean();
+    const user = await User.findById(req.user?.id).select('email role').lean();
     if (!user) {
       throw new HttpError(401, 'Your session has ended. Please log in again.');
     }
-    await ensureTrackingProfile(user._id);
+    // Researchers have no study data, so they get no PseudonymMap link
+    if (user.role !== 'researcher') await ensureTrackingProfile(user._id);
     return res.status(200).json({ success: true, user: { email: user.email } });
   } catch (error) {
     return next(error);
