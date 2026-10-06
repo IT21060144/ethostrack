@@ -13,6 +13,13 @@ Secrets (database address, JWT and pseudonym keys) are not in this repository. C
 
 Identity data (`User`: email, password hash) and behavioral data (`StudySession`, `StudyGoal`) live in separate collections and share no field. The only link is `PseudonymMap`, which stores a random `pseudoId` next to `lookupHash = HMAC-SHA256(PSEUDONYM_SECRET, userId)`. Only the server knows `PSEUDONYM_SECRET`, so a dump of the behavioral collections cannot be tied back to a person. All conversion from user id to pseudoId happens in `backend/utils/pseudonym.js`.
 
+Data that leaves a single student's own view goes through the privacy service in `backend/privacy/`:
+
+- **k-anonymity** (`kAnonymity.js`): exported session rows keep only the period, a block of start hours and a band of active minutes. These are coarsened step by step until every group holds at least k different students (default 5); groups that stay smaller are left out. No pseudoId, exact time or idle time is exported.
+- **Differential privacy** (`differentialPrivacy.js`): cohort statistics (number of students, mean weekly study time, study days per week, usual start time) get Laplace noise for a privacy budget epsilon (default 1), and groups smaller than k are not released.
+
+Only an account with the `researcher` role can read these, through `/api/research`. Students never see other students' data, and there is no screen for entering or editing records.
+
 ## Requirements
 
 - Node.js 18 or newer
@@ -28,7 +35,7 @@ npm run build:clean                      # optional: generate synthetic data and
 npm run dev                              # API on :5001 and React on :3000
 ```
 
-Open http://localhost:3000. The seeded demo login is `student@example.com` / `Password123!`.
+Open http://localhost:3000. The seeded demo login is `student@example.com` / `Password123!`. The seed also creates `researcher@example.com` (same password), which can only read the anonymised `/api/research` views.
 
 If the app says your session has ended, just log in again: tokens from an older run (or after changing `JWT_SECRET`) are rejected and cleared automatically.
 
@@ -80,8 +87,32 @@ How it works: the installer builds the React app, copies the app to `~/Library/A
 | PUT | `/api/tracking/goal` | yes | `{ goalHours }` daily study goal |
 | GET | `/api/dashboard?window=week\|rolling` | yes | Consistency score (R, A, S, H) |
 | DELETE | `/api/me` | yes | Erases the account from every zone |
+| GET | `/api/research/aggregates?weeks=4&epsilon=1` | researcher | Cohort statistics with differential privacy |
+| GET | `/api/research/export?weeks=4&k=5` | researcher | k-anonymous session rows (JSON) |
+| GET | `/api/research/export.csv?weeks=4&k=5` | researcher | Same rows as a CSV download |
 
 Sessions with no heartbeat for `SESSION_TIMEOUT_SECONDS` (default 300) are closed with `endReason: "timeout"`.
+
+## Tests
+
+```bash
+npm test             # all backend tests (needs MongoDB) + generator tests
+npm run test:unit    # only the tests that need no database
+npm run test:coverage --prefix backend
+```
+
+- `backend/tests/unit`: scoring (proposal worked example, boundaries, monotonicity), k-anonymity, differential privacy.
+- `backend/tests/integration`: the real API with a test database: registration and the pseudonym link, heartbeat session lifecycle, export without identity columns, erasure from every zone, researcher-only access.
+- `backend/tests/simulation`: synthetic sessions with known active and idle time are replayed as heartbeats; the measured time must be within 5% of the truth.
+- `synthetic-pipeline/tests`: the generator's six profiles, trends, deadline weeks and repeatability.
+
+The API tests use `TEST_MONGO_URI` (default `mongodb://127.0.0.1:27017`) and a throwaway database per test file. They never use `MONGO_URI` from `backend/.env`.
+
+## Synthetic data and evaluation
+
+`npm run simulate` writes `synthetic-pipeline/synthetic_dataset.json`: 60 synthetic students (10 for each of six profiles: consistent, moderately consistent, declining, recovering, irregular, cramming) over 12 weeks, with deadline and exam-week effects. Every student keeps a ground-truth label, and every session keeps its exact active and idle segments. No real data is used. Options: `--per-profile`, `--weeks`, `--seed`, `--end-date`, `--out`.
+
+`npm run evaluate -- --data file.json --out folder` runs the real scoring and privacy code on such a dataset (no database needed) and writes `results.md` and `results.json`: how well the score ranks the profiles compared with total hours and streaks, ablations of each score part and tracking rule, and the privacy measurements for several k and epsilon values.
 
 ## Layout
 
@@ -95,7 +126,10 @@ backend/
   utils/pseudonym.js      the only userId -> pseudoId crossing
   utils/autoOpen.js       opens the app in the browser at login and after wake (macOS)
   utils/deviceActivity.js seconds since the Mac was last used, so other tabs and apps count
-  utils/seedDatabase.js   demo student + synthetic dataset import
+  utils/seedDatabase.js   demo student, researcher account, synthetic dataset import
+  privacy/                k-anonymity and differential privacy (the only route to research data)
+  scripts/evaluate.js     evaluation on synthetic data (scores, baselines, ablations, privacy)
+  tests/                  Jest unit, API (Supertest) and replay simulation tests
 frontend/src/
   api.js                  axios client (REACT_APP_API_URL, default http://localhost:5001)
   hooks/useTrackingHeartbeat.js
@@ -104,5 +138,5 @@ frontend/src/
   components/Charts.jsx   dependency-free SVG charts (score ring, study hours, weekly score)
   components/Icon.jsx     inline SVG icons and the EthosTrack logo
 mac/                      install.sh / uninstall.sh behind the two .command files
-synthetic-pipeline/       generator.py (standard library only) and its JSON output
+synthetic-pipeline/       generator.py (six profiles, standard library only), its JSON output and tests
 ```
