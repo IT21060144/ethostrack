@@ -36,7 +36,9 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ['student'],
+      // researcher: may read anonymised aggregates only (/api/research).
+      // Registration always creates students; researchers are set up by seed.
+      enum: ['student', 'researcher'],
       default: 'student', // Enforces non-lecturer deployment restrictions by default
     },
   },
