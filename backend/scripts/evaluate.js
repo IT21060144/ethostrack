@@ -434,4 +434,8 @@ if (require.main === module) {
   console.log(md);
 }
 
-module.exports = { run, toMarkdown, spearman, ranks, seededRandom };
+module.exports = {
+  run, toMarkdown, spearman, ranks, seededRandom,
+  // Shared with benchmark.js
+  GOALS, mean, sd, summary, quantile, spearmanWithCi, weeksOf, meanWeeklyScore, baselines, TRACKING_ABLATIONS,
+};
