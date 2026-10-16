@@ -1,0 +1,37 @@
+# Runs every automated test on each push and pull request.
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      mongo:
+        image: mongo:7
+        ports:
+          - 27017:27017
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci --prefix backend
+      - name: Unit, API and replay tests with coverage
+        run: npm run test:coverage --prefix backend
+        env:
+          TEST_MONGO_URI: mongodb://127.0.0.1:27017
+
+  generator:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Synthetic data generator tests
+        run: python -m unittest discover -s synthetic-pipeline/tests -v

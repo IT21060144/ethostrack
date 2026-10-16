@@ -6,6 +6,8 @@
  *   /api/tracking   heartbeat session tracking (Behavioral Zone, by pseudoId)
  *   /api/dashboard  consistency score (Behavioral Zone, by pseudoId)
  *   /api/me         the student's own data rights (erase everything)
+ *   /api/research   anonymised aggregates and k-anonymous export (researcher
+ *                   role only; privacy/ is the only route to this data)
  *   /api/presence   "a tab is open" ping used by utils/autoOpen (no data)
  *   /api/device/activity  seconds since the Mac was last used (utils/deviceActivity)
  *   /               the built React app (frontend/build), when it exists, so
@@ -26,6 +28,7 @@ const authRoutes = require('./routes/authRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const trackingRoutes = require('./routes/trackingRoutes');
 const userRoutes = require('./routes/userRoutes');
+const researchRoutes = require('./routes/researchRoutes');
 const { startAutoOpen, recordPresence } = require('./utils/autoOpen');
 const { getDeviceActivity } = require('./utils/deviceActivity');
 const { protect } = require('./middleware/auth');
@@ -61,6 +64,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/tracking', trackingRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/me', userRoutes);
+app.use('/api/research', researchRoutes);
 app.get('/api/presence', recordPresence);
 app.get('/api/device/activity', protect, getDeviceActivity);
 

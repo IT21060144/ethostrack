@@ -3,7 +3,9 @@
  * ---------------------------------------------------------------------------
  * 1. Creates (or refreshes) one demo student you can log in as, wired through
  *    PseudonymMap exactly like a real registration, with 8 days of sessions.
- * 2. If synthetic-pipeline/synthetic_dataset.json exists, loads its sessions
+ * 2. Creates a researcher account, which can read only the anonymised
+ *    aggregates and k-anonymous export under /api/research.
+ * 3. If synthetic-pipeline/synthetic_dataset.json exists, loads its sessions
  *    into the Behavioral Zone. Those cohorts have pseudoIds but no User or
  *    PseudonymMap rows, which is exactly what an anonymised research dataset
  *    should look like: behavior with no path back to a person.
@@ -86,6 +88,19 @@ async function ensureDemoStudent() {
   console.log(`Demo student ready: ${email} / ${password} (${sessions.length} sessions)`);
 }
 
+// A researcher has no PseudonymMap row and no study data: they only ever see
+// the anonymised outputs of the privacy service.
+async function ensureResearcher() {
+  const email = (process.env.SEED_RESEARCHER_EMAIL || 'researcher@example.com').toLowerCase();
+  const password = process.env.SEED_RESEARCHER_PASSWORD || process.env.SEED_PASSWORD || 'Password123!';
+  await User.findOneAndUpdate(
+    { email },
+    { email, passwordHash: await bcrypt.hash(password, 10), role: 'researcher' },
+    { upsert: true, new: true, setDefaultsOnInsert: true, runValidators: true }
+  );
+  console.log(`Researcher ready: ${email} / ${password} (anonymised views only)`);
+}
+
 async function loadSyntheticDataset() {
   if (!fs.existsSync(SYNTHETIC_DATASET)) {
     console.log('No synthetic dataset found; run `npm run simulate` to create one.');
@@ -121,6 +136,7 @@ async function main() {
     await mongoose.connect(process.env.MONGO_URI, { serverSelectionTimeoutMS: 10000 });
     console.log('Connected to MongoDB for seed');
     await ensureDemoStudent();
+    await ensureResearcher();
     await loadSyntheticDataset();
   } catch (error) {
     console.error('Seed failed:', error.message);

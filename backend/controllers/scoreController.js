@@ -177,7 +177,9 @@ function rhythm(firstLoginHours) {
   return clamp01(1 - (deviation / RHYTHM_TOLERANCE_HOURS));
 }
 
-function calculateMetrics({ dailySummary, goals, weeks, windowDays }) {
+// weights defaults to the proposal's values; the evaluation script passes
+// others to test each component's contribution (ablation).
+function calculateMetrics({ dailySummary, goals, weeks, windowDays, weights = WEIGHTS }) {
   // t is a per-week goal, so scale it to the window (1 week or 4 weeks)
   const t = (goals?.targetDaysPerWeek ?? DEFAULT_TARGET_DAYS) * weeks;
   const p = goals?.plannedMinutesPerDay ?? 0;
@@ -207,10 +209,10 @@ function calculateMetrics({ dailySummary, goals, weeks, windowDays }) {
   if (p > 0) {
     A = adherence(totalActiveMinutes, t, p);
     components.A = round(A);
-    finalScore = 100 * (WEIGHTS.R * R + WEIGHTS.A * A + WEIGHTS.S * S + WEIGHTS.H * H);
+    finalScore = 100 * (weights.R * R + weights.A * A + weights.S * S + weights.H * H);
   } else {
-    const scale = 1 / (WEIGHTS.R + WEIGHTS.S + WEIGHTS.H);
-    finalScore = 100 * scale * (WEIGHTS.R * R + WEIGHTS.S * S + WEIGHTS.H * H);
+    const scale = 1 / (weights.R + weights.S + weights.H);
+    finalScore = 100 * scale * (weights.R * R + weights.S * S + weights.H * H);
   }
 
   const numericScore = Math.min(100, Math.max(0, Math.round(finalScore)));
@@ -275,6 +277,7 @@ async function getDashboardMetrics(req, res, next) {
 }
 
 module.exports = {
+  WEIGHTS,
   getDashboardMetrics,
   calculateMetrics,
   buildWindow,

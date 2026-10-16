@@ -11,6 +11,7 @@
  * email parameters, or demographic records to downstream tracking controllers.
  */
 const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 const HttpError = require('../utils/HttpError');
 
 /**
@@ -48,4 +49,21 @@ const protect = async (req, res, next) => {
   }
 };
 
-module.exports = { protect };
+/**
+ * requireRole — allows the request only for accounts with the given role.
+ * The role is read from the User record (Identity Zone) on every request, so
+ * a changed role takes effect at once and is never trusted from the token.
+ * Use after protect.
+ */
+const requireRole = (role) => async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user?.id).select('role').lean();
+    if (!user) return next(new HttpError(401, 'Your session has ended. Please log in again.'));
+    if (user.role !== role) return next(new HttpError(403, 'This page is only for researchers.'));
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+};
+
+module.exports = { protect, requireRole };

@@ -16,7 +16,10 @@
     "build:clean": "npm run simulate && npm run seed",
     "mac:install": "bash mac/install.sh",
     "mac:uninstall": "bash mac/uninstall.sh",
-    "netlify": "bash deploy/publish-netlify.sh"
+    "netlify": "bash deploy/publish-netlify.sh",
+    "test": "npm test --prefix backend && python3 -m unittest discover -s synthetic-pipeline/tests",
+    "test:unit": "npm run test:unit --prefix backend && python3 -m unittest discover -s synthetic-pipeline/tests",
+    "evaluate": "node backend/scripts/evaluate.js"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
