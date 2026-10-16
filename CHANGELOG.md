@@ -2,6 +2,9 @@
 
 This file records what changed in EthosTrack, day by day, until the final presentation.
 
+## 2026-10-16
+- Added the privacy part, tests and benchmark to the main code.
+
 ## 2026-10-08
 - Merged the privacy and testing update (pull request #1): k-anonymity and differential privacy for research exports, 96 automated tests, and a six-profile synthetic data generator.
 - Added this changelog so every change to the project is easy to follow.
