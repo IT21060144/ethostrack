@@ -158,3 +158,7 @@ frontend/src/
 mac/                      install.sh / uninstall.sh behind the two .command files
 synthetic-pipeline/       generator.py (six profiles, standard library only), its JSON output and tests
 ```
+
+## My note
+
+The idea of keeping student names separate from study data came from my research proposal. I checked the app, ran the tests and used it myself before my presentation.
