@@ -1,3 +1,4 @@
+// Here the student ID changes into a code name, so nobody can see whose study data it is.
 /**
  * pseudonym — the single crossing point between the two privacy zones
  * ---------------------------------------------------------------------------
